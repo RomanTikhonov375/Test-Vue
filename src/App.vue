@@ -150,8 +150,8 @@ export default {
     flex-direction: column;
     margin: 20px auto;
     border: 2px var(--secondary-secondary500) dashed;
-    border-radius: 10px;
-    overflow: hidden;
+    border-radius: 5px;
+   
 }
 
 .section__title {

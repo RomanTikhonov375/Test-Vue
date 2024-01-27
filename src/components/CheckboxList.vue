@@ -55,6 +55,7 @@ export default {
   padding: 20px;
   background-color: black;
   color: #fff;
+  box-sizing: border-box;
 }
 
 .checkbox-list__title {

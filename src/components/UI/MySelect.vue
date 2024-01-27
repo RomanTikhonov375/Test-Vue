@@ -1,9 +1,9 @@
 <template>
     <div class="dropdown" ref="dropDown">
-        <div class="dropdown__button" @click="isDropDownVisible = true">
+        <div class="dropdown__button" @click="isDropDownVisible = !isDropDownVisible" ref="dropdownButton">
         </div>
         <Transition name="slide-fade">
-            <div class="dropdown__options-wrapper" v-if="isDropDownVisible">
+            <div :class="`dropdown__options-wrapper ${calcButtonPlace}`" v-if="isDropDownVisible">
                 <div class="dropdown__option"
                     v-bind:class="[{ 'dropdown__option-pressed': option.pressed }, option.state === 'Disabled' ? 'dropdown__option-disabled' : '']"
                     v-for="(option, index) in props.options" :key="index" @click="toggleOptionSelect(option)">
@@ -32,17 +32,24 @@ const props = defineProps({
 
 const selecredOption = ref(null)
 const dropDown = ref(null)
+const dropdownButton = ref(null)
 const emit = defineEmits(['update:modelValue'])
 
 
 const toggleOptionSelect = (option) => {
     if (option.state === 'Normal') {
+        clearPressedOptions();
         selecredOption.value = option
         emit('update:modelValue', option)
-        isDropDownVisible.value = false
-        option.pressed = !option.pressed
+        option.pressed = true;
     }
 
+}
+
+const clearPressedOptions = () => {
+    props.options.forEach(option => {
+        option.pressed = false
+    });
 }
 
 const mappedSelectedOption = computed(() => {
@@ -56,8 +63,30 @@ const onCloseDropDown = (element) => {
         isDropDownVisible.value = false
        
     }
-
 }
+
+const calcButtonPlace = computed(() => {
+    const coordinatesButton = dropdownButton.value.getBoundingClientRect() // получаем координаты нашей кнопки
+      const windowWidth = window.innerWidth;
+      const windowHeight = window.innerHeight;
+      const {x, y} = coordinatesButton;
+      console.log(x, y, windowWidth, windowHeight)
+      console.log(windowHeight / 2 > y)
+
+      if (windowWidth / 2 > x) {
+        if (windowHeight / 2 > y) { // кнопка находится в левой верхней стороне окна
+          return 'bottomRight'
+        } else { // кнопка находится в левой нижней стороне окна
+          return 'topRight'
+        }
+      } else {
+        if (windowHeight / 2 > y) { // кнопка находится в правой верхней стороне окна
+          return 'bottomLeft'
+        } else { // кнопка находится в правой нижней стороне окна
+          return 'topLeft'
+        }
+      }
+  })
 
 onMounted(() => {
     window.addEventListener('click', onCloseDropDown)
@@ -72,8 +101,9 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .dropdown {
-    width: 200px;
+    width: 24px;
     margin-left: 20px;
+    position: relative;
 }
 
 .dropdown__button {
@@ -86,6 +116,8 @@ onBeforeUnmount(() => {
 }
 
 .dropdown__options-wrapper {
+    z-index: 10;
+    position: absolute;
     display: flex;
     width: 200px;
     padding: 2px 0px;
@@ -160,5 +192,22 @@ onBeforeUnmount(() => {
 .slide-fade-leave-to {
     transform: translateX(20px);
     opacity: 0;
+}
+
+.bottomRight {
+  top: 107%;
+  left: calc(100% - 24px);
+}
+.topRight {
+  bottom: 107%;
+  left: 0;
+}
+.bottomLeft {
+  top: 107%;
+  right: calc(100% - 24px);
+}
+.topLeft {
+  bottom: 107%;
+  right: calc(100% - 24px);
 }
 </style>
