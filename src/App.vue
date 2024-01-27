@@ -1,5 +1,5 @@
 <template>
-    <div class="app">
+    <main class="app">
         <h1 class="title">Тестовое задание</h1>
 
         <section class="section">
@@ -13,7 +13,7 @@
             <p class="dropdown__caption">Выбрана опция: {{ this.parrentSelectedOption.name }}</p>
         </section>
 
-    </div>
+    </main>
 </template>
 
 <script>

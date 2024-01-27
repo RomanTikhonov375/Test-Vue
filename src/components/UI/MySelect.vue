@@ -66,7 +66,7 @@ const onCloseDropDown = (element) => {
 }
 
 const calcButtonPlace = computed(() => {
-    const coordinatesButton = dropdownButton.value.getBoundingClientRect() // получаем координаты нашей кнопки
+    const coordinatesButton = dropdownButton.value.getBoundingClientRect() 
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       const {x, y} = coordinatesButton;
@@ -74,15 +74,15 @@ const calcButtonPlace = computed(() => {
       console.log(windowHeight / 2 > y)
 
       if (windowWidth / 2 > x) {
-        if (windowHeight / 2 > y) { // кнопка находится в левой верхней стороне окна
+        if (windowHeight / 2 > y) { 
           return 'bottomRight'
-        } else { // кнопка находится в левой нижней стороне окна
+        } else { 
           return 'topRight'
         }
       } else {
-        if (windowHeight / 2 > y) { // кнопка находится в правой верхней стороне окна
+        if (windowHeight / 2 > y) { 
           return 'bottomLeft'
-        } else { // кнопка находится в правой нижней стороне окна
+        } else { // 
           return 'topLeft'
         }
       }
@@ -126,7 +126,6 @@ onBeforeUnmount(() => {
     gap: 1px;
     border-radius: 2px;
     background: var(--primary-primary700, #151B29);
-    /* dropdown shadow */
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
 }
 
@@ -172,6 +171,7 @@ onBeforeUnmount(() => {
 
 .dropdown__option-disabled {
     color: var(--gradients-grey, #868F98);
+    opacity: 0.5;
     cursor: auto;
 }
 

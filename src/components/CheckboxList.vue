@@ -1,11 +1,11 @@
 <template>
   <div class="checkbox-list">
     <my-checkbox :checkboxes="checkboxItem">
-      <p>«Я принимаю <a>лицензионное
+      <p>«Я принимаю <a href="#" class="checkbox-list__link">лицензионное
           соглашение</a>».</p>
     </my-checkbox>
     <my-checkbox @checkbox-changed="renderlist" :checkboxes="checkboxList" />
-    <h3 class="checkbox-list__title">Список активных чекбоксов:</h3>
+    <h2 class="checkbox-list__title">Список активных чекбоксов:</h2>
     <ul class="checkbox-list__list">
       <li class="checkbox-list__item" v-for="selectedItemId in checkboxNewList" :key="selectedItemId">
         {{ getItemById(selectedItemId) }}
@@ -69,6 +69,15 @@ export default {
   text-align: center;
   color: var(--gradients-white);
   margin: 20px 0;
+}
+
+.checkbox-list__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.checkbox-list__link:hover {
+  opacity: 0.8;
 }
 
 .checkbox-list__list {
