@@ -1,13 +1,14 @@
 <template>
-    <div class="dropdown__wrapper" ref="dropDown">
-
-        <div class="dropdown__selected-option" @click="isDropDownVisible = true">
+    <div class="dropdown" ref="dropDown">
+        <div class="dropdown__button" @click="isDropDownVisible = true">
         </div>
         <Transition name="slide-fade">
             <div class="dropdown__options-wrapper" v-if="isDropDownVisible">
-                <div class="dropdown__option" v-for="(option, index) in props.options" :key="index"
-                    @click="toggleOptionSelect(option)">
-                    {{ option.name || option }}
+                <div class="dropdown__option"
+                    v-bind:class="[{ 'dropdown__option-pressed': option.pressed }, option.state === 'Disabled' ? 'dropdown__option-disabled' : '']"
+                    v-for="(option, index) in props.options" :key="index" @click="toggleOptionSelect(option)">
+                    <div class="dropdown__option-icon" v-if="option.icon"></div>
+                    <p class="dropdown__option-text">{{ option.name || option }}</p>
                 </div>
             </div>
         </Transition>
@@ -35,9 +36,13 @@ const emit = defineEmits(['update:modelValue'])
 
 
 const toggleOptionSelect = (option) => {
-    selecredOption.value = option
-    emit('update:modelValue', option)
-    isDropDownVisible.value = false
+    if (option.state === 'Normal') {
+        selecredOption.value = option
+        emit('update:modelValue', option)
+        isDropDownVisible.value = false
+        option.pressed = !option.pressed
+    }
+
 }
 
 const mappedSelectedOption = computed(() => {
@@ -49,6 +54,7 @@ const isDropDownVisible = ref(false)
 const onCloseDropDown = (element) => {
     if (!dropDown.value.contains(element.target)) {
         isDropDownVisible.value = false
+       
     }
 
 }
@@ -65,16 +71,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.dropdown__wrapper {
+.dropdown {
     width: 200px;
+    margin-left: 20px;
 }
 
-.dropdown__selected-option {
+.dropdown__button {
     cursor: pointer;
     width: 24px;
     height: 24px;
     background: url('../../images/dropdown-button.svg') 100% 100% no-repeat;
     margin-bottom: 2px;
+
 }
 
 .dropdown__options-wrapper {
@@ -85,20 +93,20 @@ onBeforeUnmount(() => {
     align-items: flex-start;
     gap: 1px;
     border-radius: 2px;
-    background: #151B29;
+    background: var(--primary-primary700, #151B29);
     /* dropdown shadow */
     box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.75);
 }
 
 .dropdown__option {
     display: flex;
+    width: 100%;
     padding: 6px 12px;
-    flex-direction: column;
     justify-content: center;
     align-items: flex-start;
     gap: 10px;
-    align-self: stretch;
-    background: #212B41;
+    align-self: flex-start;
+    background: var(--primary-primary500, #212B41);
 
     overflow: hidden;
     color: #FFF;
@@ -111,10 +119,33 @@ onBeforeUnmount(() => {
     font-weight: 400;
     line-height: 20px;
     letter-spacing: 0.252px;
+    cursor: pointer;
+}
+
+.dropdown__option-icon {
+    width: 17px;
+    height: 16px;
+    background: url('../../images/option-icon.svg') 100% 100% no-repeat;
+    background-color: transparent;
+}
+
+.dropdown__option-text {
+    width: 100%;
+}
+
+.dropdown__option-pressed {
+    border-left: 2px solid var(--secondary-secondary500);
+    background: var(--primary-primary700, #151B29);
+}
+
+.dropdown__option-disabled {
+    color: var(--gradients-grey, #868F98);
+    cursor: auto;
 }
 
 .dropdown__option:hover {
-    background-color: transparent;
+    background: var(--primary-primary600);
+
 }
 
 .slide-fade-enter-active {

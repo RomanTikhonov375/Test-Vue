@@ -1,0 +1,11 @@
+:root {
+ --gradients-grey: rgba(134, 143, 152, 1);
+ --gradients-white: rgba(255, 255, 255, 1);
+ --primary-primary200: rgba(146, 164, 200, 1);
+ --primary-primary300: rgba(62, 81, 122, 1);
+ --primary-primary400: rgba(48, 63, 95, 1);
+ --primary-primary500: rgba(33, 43, 65, 1);
+ --primary-primary700: rgba(21, 27, 41, 1);
+ --primary-primary900: rgba(14, 18, 27, 1);
+ --secondary-secondary500: rgba(74, 180, 255, 1);
+}

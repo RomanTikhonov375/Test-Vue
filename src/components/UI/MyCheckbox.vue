@@ -1,9 +1,9 @@
 <template>
   <template v-for="checkbox in checkboxes" :key="checkbox.id">
-    <div v-if="checkbox.visible" class="checkbox-wrapper">
-      <input v-model="selectedCheckboxes" :disabled="checkbox.disabled" :value="checkbox.id" class="my-checkbox"
+    <div v-if="checkbox.visible" class="checkbox">
+      <input v-model="selectedCheckboxes" :disabled="checkbox.disabled" :value="checkbox.id" class="checkbox__input"
         type="checkbox" @change="updateInput()" :id="checkbox.id">
-      <label class="checkbox-label" v-bind:for="checkbox.id">
+      <label class="checkbox__label" v-bind:for="checkbox.id">
         {{ checkbox.title }} <slot></slot>
       </label>
     </div>
@@ -34,16 +34,16 @@ export default {
 </script>
 
 <style scoped>
-.checkbox-wrapper {
+.checkbox {
   margin-top: 20px;
   display: flex;
 }
 
-.my-checkbox {
+.checkbox__input {
   display: none;
 }
 
-.checkbox-label {
+.checkbox__label {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -61,7 +61,7 @@ export default {
 
 }
 
-.checkbox-label::before {
+.checkbox__label::before {
   content: "";
   display: inline-block;
   width: 23px;
@@ -72,37 +72,37 @@ export default {
   background: url('../../images/checkbox.svg') 0 0 no-repeat;
 }
 
-input[type=checkbox]:disabled:checked+.checkbox-label::before {
+input[type=checkbox]:disabled:checked+.checkbox__label::before {
   background: url('../../images/checkbox-disabled-on.svg') 0 0 no-repeat;
 }
 
-input[type=checkbox]:disabled+.checkbox-label::before {
+input[type=checkbox]:disabled+.checkbox__label::before {
   background: url('../../images/checkbox-disabled-off.svg') 0 0 no-repeat;
 }
 
-.checkbox-label:target::before {
+.checkbox__label:target::before {
   background: url('../../images/checkbox-active-off.svg') 0 0 no-repeat;
 }
 
-input[type=checkbox]:not(:disabled):checked:active+.checkbox-label::before {
+input[type=checkbox]:not(:disabled):checked:active+.checkbox__label::before {
   background: url('../../images/checkbox-active-on.svg') 0 0 no-repeat;
 }
 
-input[type=checkbox]:not(:disabled):active+.checkbox-label::before {
+input[type=checkbox]:not(:disabled):active+.checkbox__label::before {
   background: url('../../images/checkbox-active-off.svg') 0 0 no-repeat;
 }
 
-input[type=checkbox]:checked+.checkbox-label::before {
+input[type=checkbox]:checked+.checkbox__label::before {
   background: url('../../images/checkbox-off.svg') 0 0 no-repeat;
 }
 
 
-.checkbox-label:hover::before {
+.checkbox__label:hover::before {
   background: url('../../images/checkbox-off-hover.svg') 0 0 no-repeat;
 }
 
 
-input[type=checkbox]:checked+.checkbox-label:hover::before {
+input[type=checkbox]:checked+.checkbox__label:hover::before {
   background: url('../../images/checkbox-on-hover.svg') 0 0 no-repeat;
 }
 </style>

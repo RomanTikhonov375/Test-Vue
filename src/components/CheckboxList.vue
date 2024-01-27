@@ -1,9 +1,13 @@
 <template>
   <div class="checkbox-list">
+    <my-checkbox :checkboxes="checkboxItem">
+      <p>«Я принимаю <a>лицензионное
+          соглашение</a>».</p>
+    </my-checkbox>
     <my-checkbox @checkbox-changed="renderlist" :checkboxes="checkboxList" />
-    <h3 class="checkbox__title">Список активных чекбоксов:</h3>
-    <ul>
-      <li class="checkbox__item" v-for="selectedItemId in checkboxNewList" :key="selectedItemId">
+    <h3 class="checkbox-list__title">Список активных чекбоксов:</h3>
+    <ul class="checkbox-list__list">
+      <li class="checkbox-list__item" v-for="selectedItemId in checkboxNewList" :key="selectedItemId">
         {{ getItemById(selectedItemId) }}
       </li>
     </ul>
@@ -14,12 +18,14 @@
 import MyCheckbox from "@/components/UI/MyCheckbox.vue";
 
 export default {
-  components: {MyCheckbox},
+  components: { MyCheckbox },
   props: {
     checkboxList: {
       type: Array,
-      required: true,
     },
+    checkboxItem: {
+      type: Array,
+    }
   },
   data() {
     return {
@@ -31,6 +37,7 @@ export default {
       this.checkboxNewList = checkboxList
       console.log(this.checkboxNewList)
     },
+
 
     getItemById(id) {
       const selectedItem = this.checkboxList.find(item => item.id === id);
@@ -50,11 +57,28 @@ export default {
   color: #fff;
 }
 
-.checkbox__title {
+.checkbox-list__title {
   margin-bottom: 10px;
+  display: block;
+  font-size: 24px;
+  font-family: "Gotham Pro";
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.252px;
+  text-align: center;
+  color: var(--gradients-white);
+  margin: 20px 0;
 }
 
-.checkbox__item {
+.checkbox-list__list {
+  list-style: none;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.checkbox-list__item {
+
   color: #fff;
 }
 </style>

@@ -1,22 +1,22 @@
 <template>
     <div class="app">
-        <h1>Страница с постами</h1>
-        <MyButton @click="showDialog">Создать пост</MyButton>
-        <MyDialog v-model:show="dialogVisible">
-            <PostForm @create="createPost"></PostForm>
-        </MyDialog>
+        <h1 class="title">Тестовое задание</h1>
 
-        <PostList :posts="posts" @remove="removePosts"></PostList>
+        <section class="section">
+            <h2 class="section__title">Задание №1</h2>
+            <CheckboxList v-model:checkboxList="checkboxList" v-model:checkboxItem="checkboxItem"></CheckboxList>
+        </section>
+
+        <section class="section">
+            <h2 class="section__title">Задание №2</h2>
+            <MySelectVue :options="options" v-model="parrentSelectedOption"></MySelectVue>
+            <p class="dropdown__caption">Выбрана опция: {{ this.parrentSelectedOption.name }}</p>
+        </section>
+
     </div>
-
-    <CheckboxList v-model:checkboxList="checkboxList"></CheckboxList>
-    <MySelectVue :options="options" v-model="parrentSelectedOption"></MySelectVue>
-    <h1>Выбрана опция: {{ this.parrentSelectedOption.name }}</h1>
 </template>
 
 <script>
-import PostForm from '@/components/PostForm'
-import PostList from '@/components/PostList'
 import CheckboxList from '@/components/CheckboxList'
 import MySelectVue from '@/components/UI/MySelect'
 import axios from 'axios'
@@ -28,12 +28,14 @@ import { ref } from 'vue';
 
 export default {
     components: {
-        PostForm, PostList, CheckboxList, MySelectVue
+        CheckboxList, MySelectVue
     },
     data() {
         return {
-            posts: [],
-            dialogVisible: false,
+            checkboxItem: [{
+                "id": 10,
+                "visible": true,
+            }],
             checkboxList: [
                 {
                     "id": 1,
@@ -70,60 +72,54 @@ export default {
             options: ref([
                 {
                     name: 'Первый',
-                    value: 1
+                    value: 1,
+                    pressed: false,
+                    state: 'Normal',
+                    icon: false
                 },
                 {
                     name: 'Второй',
-                    value: 2
+                    value: 2,
+                    pressed: false,
+                    state: 'Normal',
+                    icon: false
                 }, {
                     name: 'Третий',
-                    value: 3
+                    value: 3,
+                    pressed: false,
+                    state: 'Normal',
+                    icon: false
                 }, {
                     name: 'Четвертый',
-                    value: 4
+                    value: 4,
+                    pressed: false,
+                    state: 'Disabled',
+                    icon: false
                 }, {
                     name: 'Пятый',
-                    value: 5
+                    value: 5,
+                    pressed: false,
+                    state: 'Disabled',
+                    icon: true
                 },
                 {
                     name: 'Шестой',
-                    value: 6
+                    value: 6,
+                    pressed: false,
+                    state: 'Normal',
+                    icon: true
                 }]),
-                parrentSelectedOption: ref({})
+            parrentSelectedOption: ref({})
 
         }
     },
-    methods: {
 
-        createPost(post) {
-            this.posts.push(post);
-            this.dialogVisible = false;
-        },
-        removePosts(post) {
-            this.posts = this.posts.filter(p => p.id !== post.id)
-        },
-        showDialog() {
-            this.dialogVisible = true;
-        },
-        async fetchPosts() {
-            try {
-                const res = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
-                console.log(res)
-                this.posts = res.data;
-            } catch (error) {
-                alert(error)
-            }
-
-        },
-
-    },
-    mounted() {
-        this.fetchPosts();
-    }
 }
 </script>
 
 <style>
+@import url(./variabels/variables.css);
+
 * {
     margin: 0;
     padding: 0;
@@ -132,5 +128,52 @@ export default {
 
 .app {
     padding: 20px;
+    background-color: black;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.title {
+    display: block;
+    font-size: 36px;
+    font-family: "Gotham Pro";
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.252px;
+    text-align: center;
+    color: var(--gradients-white);
+}
+
+.section {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+    border: 2px var(--secondary-secondary500) dashed;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.section__title {
+    display: block;
+    font-size: 24px;
+    font-family: "Gotham Pro";
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.252px;
+    text-align: center;
+    color: var(--gradients-white);
+    margin: 20px 0;
+}
+
+.dropdown__caption {
+    font-size: 16px;
+    font-family: "Gotham Pro";
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0.252px;
+    text-align: center;
+    color: var(--gradients-white);
+    margin: 20px 0;
 }
 </style>
