@@ -10,17 +10,25 @@
     </div>
 
     <CheckboxList v-model:checkboxList="checkboxList"></CheckboxList>
+    <MySelectVue :options="options" v-model="parrentSelectedOption"></MySelectVue>
+    <h1>Выбрана опция: {{ this.parrentSelectedOption.name }}</h1>
 </template>
 
 <script>
 import PostForm from '@/components/PostForm'
 import PostList from '@/components/PostList'
 import CheckboxList from '@/components/CheckboxList'
+import MySelectVue from '@/components/UI/MySelect'
 import axios from 'axios'
+
+import { ref } from 'vue';
+
+
+
 
 export default {
     components: {
-        PostForm, PostList, CheckboxList
+        PostForm, PostList, CheckboxList, MySelectVue
     },
     data() {
         return {
@@ -32,33 +40,56 @@ export default {
                     "title": "apple",
                     "visible": true,
                     "disabled": true,
-                  
+
                 },
                 {
                     "id": 2,
                     "title": "melon",
                     "visible": false,
-                  
+
                 },
                 {
                     "id": 3,
                     "title": "pineapple",
                     "visible": true,
-                
+
                 },
                 {
                     "id": 4,
                     "title": "banana",
                     "visible": true,
-                 
+
                 },
                 {
                     "id": 5,
                     "title": "watermelon",
                     "visible": true,
-              
+
                 }
-            ]
+            ],
+            options: ref([
+                {
+                    name: 'Первый',
+                    value: 1
+                },
+                {
+                    name: 'Второй',
+                    value: 2
+                }, {
+                    name: 'Третий',
+                    value: 3
+                }, {
+                    name: 'Четвертый',
+                    value: 4
+                }, {
+                    name: 'Пятый',
+                    value: 5
+                },
+                {
+                    name: 'Шестой',
+                    value: 6
+                }]),
+                parrentSelectedOption: ref({})
 
         }
     },
